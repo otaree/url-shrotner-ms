@@ -3,11 +3,21 @@ const request = require('supertest');
 
 const { URL } = require('./../models/url');
 const { app } = require('./../server');
+const { generateShort } = require('./../utils/urlutils');
+
+var shortUrl = generateShort();
+
+var seedUrls = [{
+    original_url: 'facebook.com',
+    short_url: shortUrl
+}];
 
 beforeEach((done) => {
     URL.remove({}).then(() => {
+        return URL.insertMany(seedUrls);
+    }).then(() => {
         done();
-    });
+    }).catch((e) => done(e));
 });
 
 describe('GET /new/*', () => {
@@ -39,6 +49,22 @@ describe('GET /new/*', () => {
 
         request(app)
             .get(`/new/${url}`)
+            .expect(400)
+            .end(done);
+    });
+});
+
+describe('GET /*', () => {
+    it('should redirect to site from the database', (done) => {
+        request(app)
+            .get(`/${shortUrl}`)
+            .expect(301)
+            .end(done);
+    });
+
+    it('should fail to redirect', (done) => {
+        request(app)
+            .get('/dafdfaewrwr12321')
             .expect(400)
             .end(done);
     });

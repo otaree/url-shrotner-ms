@@ -59,6 +59,21 @@ app.get('/new/*', async (req, res) => {
     }
 });
 
+app.get('*', async (req, res) => {
+    var url = req.url.trim().replace('/', '');
+
+    var checkURL = await URL.findOne({ short_url: url });
+
+    if (!checkURL) {
+        return res.status(400).send({
+            error: "This url is not on the database."
+        });
+    }
+
+    res.redirect(301, 'https://www.'+checkURL.original_url);
+
+});
+
 app.listen(port, () => {
     console.log(`Server up on ${port}`);
 });
