@@ -1,3 +1,5 @@
+require('./config/config');
+
 const express = require('express');
 
 const app = express();
@@ -58,5 +60,8 @@ app.get('/new/*', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Serve up on ${port}`);
+    console.log(`Server up on ${port}`);
 });
+
+
+module.exports = { app };

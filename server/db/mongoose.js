@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb://localhost/url-sort');
+mongoose.connect(process.env.MONGODB_URI);
 
 module.exports = { mongoose };
