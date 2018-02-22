@@ -1,4 +1,4 @@
-#API Basejump: URL Shortener Microservice
+# API Basejump: URL Shortener Microservice
 
 ## User Story: 
  1. I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
